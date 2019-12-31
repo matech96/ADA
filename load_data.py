@@ -3,20 +3,39 @@ import numpy as np
 
 from sklearn.preprocessing import StandardScaler
 
-def get_data():
+def get_data(imputer=None):
+    alldf = get_df()    
+    if imputer is None:
+        alldf = alldf.fillna(-1)
+    else:
+        imp_columns = ['basket_element_number', 'click_num',
+                       'customer_age', 'customer_value', 'duration_of_session',
+                       'last_order_of_customer', 'level_of_purchasing_process',
+                       'lifetime_customer_account', 'max_val',
+                       'maximum_price_of_visited_products',
+                       'minimum_price_of_visited_products', 'num_of_previous_payments',
+                       'price_of_cheapest_product_in_basket',
+                       'price_of_more_expensive_product_in_basket', 'regio_of_customer',
+                       'start_date_of_session', 'start_time_of_session',
+                       'sum_price_of_products_in_basket', 'sum_price_of_visited_products',
+                       'test_or_train_flag']
+        alldf[imp_columns] = imp.fit_transform(alldf[imp_columns])
+    return dg2data(alldf)
+
+def get_df():
     train_df = pd.read_csv("data/public_train_trx.csv")
     test_df = pd.read_csv("data/public_test_trx.csv")
     alldf = pd.concat([train_df,test_df])
     alldf = alldf.sort_values(['session_id','duration_of_session','click_num'])
-    alldf = alldf.reset_index(drop=True)
+    alldf['start_date_of_session'] = pd.to_datetime(alldf['start_date_of_session']).astype(np.int64)
+    alldf['start_time_of_session'] = pd.to_datetime(alldf['start_time_of_session']).astype(np.int64)
+    return alldf.reset_index(drop=True)
+
+def dg2data(alldf):
     target = 'TARGET_successful_purchase'
-    
-    alldf = alldf.fillna(-1)
     aggregalando_valtozok = list(alldf.columns)
     aggregalando_valtozok.remove('test_or_train_flag')
     aggregalando_valtozok.remove(target)
-    aggregalando_valtozok.remove('start_date_of_session')
-    aggregalando_valtozok.remove('start_time_of_session')
     aggregalando_valtozok.remove('session_id')
     
     cust_df = alldf.groupby('session_id',as_index=False).agg({target:'min',

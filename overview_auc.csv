@@ -1,0 +1,12 @@
+name,auc
+<class 'sklearn.linear_model._logistic.LogisticRegression'>,0.8677443689179304
+<class 'sklearn.linear_model._ridge.RidgeClassifier'>,0.8669235641572538
+<class 'sklearn.linear_model._coordinate_descent.Lasso'>,0.5
+<class 'sklearn.linear_model._coordinate_descent.ElasticNet'>,0.5
+<class 'sklearn.linear_model._least_angle.Lars'>,0.6583198103288719
+<class 'sklearn.linear_model._least_angle.LassoLars'>,0.5
+<class 'sklearn.linear_model._omp.OrthogonalMatchingPursuit'>,0.8510286230628956
+<class 'sklearn.linear_model._bayes.BayesianRidge'>,0.8669256398368418
+<class 'sklearn.linear_model._stochastic_gradient.SGDClassifier'>,0.8475698182242606
+<class 'sklearn.neighbors._classification.KNeighborsClassifier'>,0.8315843566634321
+<class 'sklearn.tree._classes.DecisionTreeClassifier'>,0.7379688887282919
