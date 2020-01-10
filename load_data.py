@@ -3,23 +3,24 @@ import numpy as np
 
 from sklearn.preprocessing import StandardScaler
 
-def get_data(imputer=None):
-    alldf = get_df()    
-    if imputer is None:
-        alldf = alldf.fillna(-1)
+def get_data(imputer=None, imp_columns=None):
+    alldf = get_df()
+    if (imputer is None) or (imp_columns is None):
+        alldf = alldf.fillna(0)
     else:
-        imp_columns = ['basket_element_number', 'click_num',
-                       'customer_age', 'customer_value', 'duration_of_session',
-                       'last_order_of_customer', 'level_of_purchasing_process',
-                       'lifetime_customer_account', 'max_val',
-                       'maximum_price_of_visited_products',
-                       'minimum_price_of_visited_products', 'num_of_previous_payments',
-                       'price_of_cheapest_product_in_basket',
-                       'price_of_more_expensive_product_in_basket', 'regio_of_customer',
-                       'start_date_of_session', 'start_time_of_session',
-                       'sum_price_of_products_in_basket', 'sum_price_of_visited_products',
-                       'test_or_train_flag']
-        alldf[imp_columns] = imp.fit_transform(alldf[imp_columns])
+#         ['basket_element_number', 'click_num',
+#                        'customer_age', 'customer_value', 'duration_of_session',
+#                        'last_order_of_customer', 'level_of_purchasing_process',
+#                        'lifetime_customer_account', 'max_val',
+#                        'maximum_price_of_visited_products',
+#                        'minimum_price_of_visited_products', 'num_of_previous_payments',
+#                        'price_of_cheapest_product_in_basket',
+#                        'price_of_more_expensive_product_in_basket', 'regio_of_customer',
+#                        'start_date_of_session', 'start_time_of_session',
+#                        'sum_price_of_products_in_basket', 'sum_price_of_visited_products',
+#                        'test_or_train_flag']
+        alldf[imp_columns] = imputer.fit_transform(alldf[imp_columns])
+        alldf = alldf.fillna(0)
     return dg2data(alldf)
 
 def get_df():
